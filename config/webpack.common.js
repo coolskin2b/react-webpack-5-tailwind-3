@@ -7,7 +7,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css t
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer') // help tailwindcss to work
 
+const isDev = process.env.NODE_ENV === 'development'
+
 module.exports = {
+  resolve: {
+    alias: {
+      '~': paths.src,
+    },
+  },
+
   // Where webpack looks to start building the bundle
   entry: [paths.src + '/index.js'],
 
@@ -61,7 +69,7 @@ module.exports = {
       {
         test: /\.(css|scss|sass)$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
           {
